@@ -11,7 +11,7 @@ namespace TelegramBotConsole
             bool isNameEntered = false;
             bool waitingForName = false;
 
-            Console.WriteLine("Добро пожаловать в бота!\n");
+            Console.WriteLine("Добро пожаловать в бот!\n");
             Console.WriteLine("Доступные команды:");
             Console.WriteLine("/start - начать работу и ввести имя");
             Console.WriteLine("/help - показать справку");
@@ -99,7 +99,7 @@ namespace TelegramBotConsole
                         Console.WriteLine("Информация о программе");
                         Console.WriteLine("Версия: 2.0.0");
                         Console.WriteLine("Дата создания: 26.02.2026");
-                        Console.WriteLine("Автор: Дорофеева Дарья");
+                        Console.WriteLine("Автор: Dorofeeva Daria");
                         PrintPersonalizedMessage(isNameEntered, userName, "спасибо, что пользуетесь ботом!");
                         break;
 
