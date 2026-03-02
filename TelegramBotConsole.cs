@@ -7,19 +7,21 @@ namespace TelegramBotConsole
     {
         static void Main(string[] args)
         {
-            string userName = null;
+            string userName = string.Empty;
             bool isNameEntered = false;
             bool waitingForName = false;
+            bool isRunning = true;
 
             Console.WriteLine("Добро пожаловать в бот!\n");
             Console.WriteLine("Доступные команды:");
             Console.WriteLine("/start - начать работу и ввести имя");
             Console.WriteLine("/help - показать справку");
             Console.WriteLine("/info - информация о программе");
+            Console.WriteLine("/echo [текст] - повторить введенный текст");
             Console.WriteLine("/exit - выход из программы");
             Console.WriteLine();
 
-            while (true)
+            while (isRunning)
             {
                 if (!waitingForName)
                 {
@@ -68,6 +70,27 @@ namespace TelegramBotConsole
                     continue;
                 }
 
+                if (input.StartsWith("/echo "))
+                {
+                    if (isNameEntered)
+                    {
+                        string echoText = input.Substring(6);
+                        if (!string.IsNullOrWhiteSpace(echoText))
+                        {
+                            Console.WriteLine($"{userName}, вы написали: \"{echoText}\"\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{userName}, вы не ввели текст. Используйте: /echo текст\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Сначала введите /start, чтобы начать работу.\n");
+                    }
+                    continue;
+                }
+
                 switch (input)
                 {
                     case "/start":
@@ -103,6 +126,18 @@ namespace TelegramBotConsole
                         PrintPersonalizedMessage(isNameEntered, userName, "спасибо, что пользуетесь ботом!");
                         break;
 
+                    case "/echo":
+                        Console.WriteLine();
+                        if (isNameEntered)
+                        {
+                            Console.WriteLine($"{userName}, вы использовали команду /echo без текста. Используйте: /echo [текст]\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Сначала введите /start, чтобы начать работу.\n");
+                        }
+                        break;
+
                     case "/exit":
                         Console.WriteLine();
                         if (isNameEntered)
@@ -110,35 +145,12 @@ namespace TelegramBotConsole
                         else
                             Console.WriteLine("До свидания!");
 
-                        Console.WriteLine("Программа завершена. Нажмите любую клавишу для выхода...");
-                        Console.ReadKey();
-                        return;
+                        Console.WriteLine("Программа завершена.");
+                        isRunning = false;
+                        break;
 
                     default:
-                        if (input.StartsWith("/echo "))
-                        {
-                            if (isNameEntered)
-                            {
-                                string echoText = input.Substring(6);
-
-                                if (!string.IsNullOrWhiteSpace(echoText))
-                                {
-                                    Console.WriteLine($"{userName}, вы написали: \"{echoText}\"\n");
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"{userName}, вы не ввели текст. Используйте: /echo текст\n");
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Сначала введите /start, чтобы начать работу.\n");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Неизвестная команда. Введите /help для списка команд.\n");
-                        }
+                        Console.WriteLine("Неизвестная команда. Введите /help для списка команд.\n");
                         break;
                 }
             }
